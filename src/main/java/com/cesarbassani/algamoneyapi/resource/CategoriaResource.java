@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
-public class CategoriaResource {
+public class  CategoriaResource {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
