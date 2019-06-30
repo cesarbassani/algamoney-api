@@ -3,6 +3,8 @@ package com.cesarbassani.algamoneyapi.service;
 import com.cesarbassani.algamoneyapi.model.Lancamento;
 import com.cesarbassani.algamoneyapi.model.Pessoa;
 import com.cesarbassani.algamoneyapi.repository.LancamentoRepository;
+import com.cesarbassani.algamoneyapi.repository.PessoaRepository;
+import com.cesarbassani.algamoneyapi.service.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,6 +15,9 @@ public class LancamentoService {
 
     @Autowired
     private LancamentoRepository lancamentoRepository;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
     public Lancamento atualizar(Long codigo, Lancamento lancamento) {
         Lancamento lancamentoSalvo = buscarLancamentoPeloCodigo(codigo);
@@ -26,5 +31,13 @@ public class LancamentoService {
             throw new EmptyResultDataAccessException(1);
         }
         return lancamentoSalvo;
+    }
+
+    public Lancamento salvar(Lancamento lancamento) {
+        Pessoa pessoa = pessoaRepository.findOne(lancamento.getPessoa().getCodigo());
+        if (pessoa == null || pessoa.isInativo()) {
+            throw new PessoaInexistenteOuInativaException();
+        }
+        return lancamentoRepository.save(lancamento);
     }
 }
