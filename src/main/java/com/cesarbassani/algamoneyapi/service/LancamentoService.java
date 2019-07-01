@@ -40,4 +40,9 @@ public class LancamentoService {
         }
         return lancamentoRepository.save(lancamento);
     }
+
+    public void deletar(Long codigo) {
+        Lancamento lancamentoBuscado = buscarLancamentoPeloCodigo(codigo);
+        lancamentoRepository.delete(lancamentoBuscado);
+    }
 }
