@@ -4,6 +4,7 @@ import com.cesarbassani.algamoneyapi.event.RecursoCriadoEvent;
 import com.cesarbassani.algamoneyapi.exceptionhandler.AlgamoneyExceptionHandler;
 import com.cesarbassani.algamoneyapi.model.Lancamento;
 import com.cesarbassani.algamoneyapi.repository.LancamentoRepository;
+import com.cesarbassani.algamoneyapi.repository.filter.LancamentoFilter;
 import com.cesarbassani.algamoneyapi.service.LancamentoService;
 import com.cesarbassani.algamoneyapi.service.exception.PessoaInexistenteOuInativaException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -39,8 +40,8 @@ public class LancamentoResource {
     private MessageSource messageSource;
 
     @GetMapping
-    public List<Lancamento> listar() {
-        return lancamentoRepository.findAll();
+    public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
+        return lancamentoRepository.filtrar(lancamentoFilter);
 //        return !categorias.isEmpty() ? ResponseEntity.ok().body(categorias) : ResponseEntity.noContent().build();
     }
 
